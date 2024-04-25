@@ -1,0 +1,7 @@
+model_weight/
+plot/
+tmp/
+runs/
+*.png
+*.txt
+*.pth
