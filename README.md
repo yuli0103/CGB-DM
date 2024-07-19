@@ -1,11 +1,11 @@
-<h1 align="center"> #CGB-DM: Content and Graphic Balance Layout Generation with Transformer-based Diffusion Model</h1>
+<h1 align="center"> CGB-DM: Content and Graphic Balance Layout Generation with Transformer-based Diffusion Model</h1>
 
 <div align="center">
 
  <a href=''><img src='https://img.shields.io/badge/arxiv-paper-red'></a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
  <a href='https://yuli0103.github.io/CGB-DM.github.io/'><img src='https://img.shields.io/badge/Project-Page-Green'></a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
  
-_**[Yu Li](https://github.com/yuli0103/), [Yifan Chen](), [GongyeLiu](https://github.com/GongyeLiu), [Jie Wu](), [Yujiu Yang*](https://scholar.google.com/citations?user=4gH3sxsAAAAJ&hl=zh-CN&oi=ao)**_
+_**[Yu Li](https://github.com/yuli0103/), [Yifan Chen](), [Gongye Liu](https://github.com/GongyeLiu), [Jie Wu](), [Yujiu Yang*](https://scholar.google.com/citations?user=4gH3sxsAAAAJ&hl=zh-CN&oi=ao)**_
 
 Tsinghua University
 <br>
@@ -30,15 +30,7 @@ pip install -r requirements.txt
 2. Download [Bastnet](https://github.com/xuebinqin/BASNet) checkpoint into `saliency` folder.
 
 
-## [Data Preparation](scripts/README.md)
-
-1. Download meta data from [here](https://drive.google.com/file/d/1M6om4DSk9wNgzjGLY5BtPNUL83KB8JVB/view?usp=sharing).
-
-2. Download and process background images.
-
-3. Preprocess saliency map for background images.
-
-4. Move the corresponding background images to the right directory.
+## Dataset & Pre-process
 
 
 ## Background Generation
