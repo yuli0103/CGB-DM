@@ -1,0 +1,38 @@
+task: 'uncond'
+
+# Dataset configuration
+num_class: 5
+batch_size: 128
+width: 513
+height: 750
+dataset_cls: 'cgl'
+
+# Paths
+paths:
+  base: "/mnt/data/ly24/dataset/cgl/split"
+  test:
+    inp_dir: "test_anno/inpaint"
+    sal_dir: "test_anno/saliency"
+    sal_sub_dir: "test_anno/saliency_sub"
+    annotated_dir: "csv/test.csv"
+    salbox_dir: "csv/test_anno_sal.csv"
+
+# Model parameters
+max_elem: 16
+lr: 2.0e-4
+epochs: 500
+gradient_clipping: 1.0
+d_model: 512
+n_head: 8
+n_layers: 4
+feature_dim: 1024
+
+# Runtime configuration
+num_workers: 16
+log_test_epochs: 5
+base_check_dir: '/mnt/data/ly24/checkpoint/cgl'
+imgname_order_dir: '/home/ly24/code/ditl/output/ptfile/image_name_order'
+save_imgs_dir: '/home/ly24/code/ditl/output/image'
+
+# Dynamic configuration
+datetime: null
