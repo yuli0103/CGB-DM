@@ -18,8 +18,7 @@ Tsinghua University
 </p>
 
 ## Setup
-
-1. Create a conda enviroment:
+ Create a conda enviroment:
 
 ```bash
 conda env create -n desigen python=3.8
@@ -27,16 +26,34 @@ conda activate desigen
 pip install -r requirements.txt
 ```
 
-2. Download checkpoints
-   (1) cgb-dm checkpoint
-   (2) is-net checkpoint
-   (3) basnet checkpoint
 
-## Dataset & Pre-process
+## Dataset & Checkpoint
 1. Download data
-   url
-   dataset structure
-2. how to preprocess with your data
+   Here we provide links to our organized `pku` and `cgl` datasets <url>, which include inpainted images, saliency maps, ground truth labels, and detected saliency bounding box data.
+   ```
+  dataset/
+  ├─ pku/
+  │  ├─ csv/
+  │  │  ├─ train.csv/
+  │  │  ├─ train_sal.csv/
+  │  │  ├─ ...
+  │  ├─ train/
+  │  │  ├─ inpaint/
+  │  │  ├─ saliency/
+  │  │  ├─ saliency_sub/
+  │  ├─ test_anno/
+  │  │  ├─ ...
+  │  ├─ test_unanno/
+  │  │  ├─ image_canvas/
+  │  │  ├─ saliency/
+  │  │  ├─ saliency_sub/
+  │  ├─ val/
+  │  │  ├─ ...
+  ├─ cgl/
+  ├─ ...
+  ```
+2. Download pre-trained weights from <>, which include the weights for CGB-DM (Ours), as well as the weights for the saliency detection algorithms ISNet and BASNet.
+3. how to preprocess with your data
    (1) inpaint
    (2) saliency detection
    (3) get saliency detection box
@@ -63,15 +80,15 @@ Run the commands in terminal
 # You can choose the test dataset, type and corresponding task
 python scripts/test.py --gpuid 0 --dataset pku --anno unanno --task uncond --check_path ''
 ```
-The meaning of <anno> is to select either annotated or unannotated test sets. It is important to note that unannotated test sets can only be used for 'uncond' tasks, as they lack ground truth labels.
+The meaning of `anno` is to select either annotated or unannotated test sets. It is important to note that unannotated test sets can only be used for `uncond` tasks, as they lack ground truth labels.
 ### Inference with a single image
 Run the commands in terminal
 ```bash
 python scripts/run_single_image.py --gpuid 0 --render_style pku --image_path ''  --check_path ''
 ```
-<render_style> includes pku and cgl. 
+`render_style` includes pku and cgl. 
 
-In <image_path>, select the test image, and in <check_path>, select the model weights.
+In `image_path`, select the test image, and in `check_path`, select the model weights.
 
 ## Citation
 
