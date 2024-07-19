@@ -1,20 +1,50 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Thu Nov  3 03:23:42 2022
-
-@author: kinsleyhsu
-"""
 import sys
 
 import torch
 import numpy as np
 import random
-import torch.nn as nn
 import os
+import re
 import fsspec
 from torchvision.ops.boxes import box_area
 from collections import OrderedDict
+from typing import Callable, Optional, Union, Any
+from torch import Tensor
+import yaml
+from datetime import datetime
+import pytz
+
+class Config:
+    def __init__(self, config):
+        for key, value in config.items():
+            if isinstance(value, dict):
+                setattr(self, key, Config(value))
+            else:
+                setattr(self, key, value)
+
+
+def process_paths(config):
+    base = config['paths']['base']
+
+    sections = ['test']
+    if 'train' in config['paths']:
+        sections.append('train')
+
+    for section in sections:
+        if section in config['paths']:
+            for key, value in config['paths'][section].items():
+                config['paths'][section][key] = os.path.join(base, value)
+
+    return config
+
+def load_config(config_path):
+    with open(config_path, 'r') as file:
+        config = yaml.safe_load(file)
+    config = process_paths(config)
+
+    china_tz = pytz.timezone('Asia/Shanghai')
+    config['datetime'] = datetime.now(china_tz).strftime('%m_%d_%H%M')
+    return Config(config)
 
 def box_xyxy_to_cxcywh(x):
     x0, y0, x1, y1 = x.unbind(-1)
@@ -24,9 +54,21 @@ def box_xyxy_to_cxcywh(x):
 
 def box_cxcywh_to_xyxy(x):
     x_c, y_c, w, h = x.unbind(-1)
-    b = [(x_c - 0.5 * abs(w)), (y_c - 0.5 * abs(h)),
-         (x_c + 0.5 * abs(w)), (y_c + 0.5 * abs(h))]
+    b = [(x_c - w/2), (y_c - h/2),
+         (x_c + w/2), (y_c + h/2)]
     return torch.stack(b, dim=-1)
+
+def convert_xywh_to_ltrb(
+    bbox: Union[Tensor, np.ndarray, list[float]]
+) -> Union[list[Tensor], list[np.ndarray], list[float]]:
+    # assert len(bbox) == 4
+    xc, yc, w, h = bbox
+    x1 = xc - w / 2
+    y1 = yc - h / 2
+    x2 = xc + w / 2
+    y2 = yc + h / 2
+    return [x1, y1, x2, y2]
+
 def box_iou(boxes1, boxes2):
     area1 = box_area(boxes1)
     area2 = box_area(boxes2)
@@ -65,31 +107,6 @@ def generalized_box_iou(boxes1, boxes2):
 
     return iou - (area - union) / area
 
-def setup_seed(seed):
-     torch.manual_seed(seed)
-     torch.cuda.manual_seed_all(seed)
-     np.random.seed(seed)
-     random.seed(seed)
-     torch.backends.cudnn.deterministic = True
-
-def save_model(model: nn.Module, ckpt_dir: str, best_or_final: str = "best"):
-    model_path = os.path.join(ckpt_dir, f"{best_or_final}_model.pt")
-    with fsspec.open(str(model_path), "wb") as file_obj:
-        torch.save(model.state_dict(), file_obj)
-    return model
-
-# def update_ema(target_params, source_params, rate=0.99):
-#     """
-#     Update target parameters to be closer to those of source parameters using
-#     an exponential moving average.
-#
-#     :param target_params: the target parameter sequence.
-#     :param source_params: the source parameter sequence.
-#     :param rate: the EMA rate (closer to 1 means slower).
-#     """
-#     for targ, src in zip(target_params, source_params):
-#         targ.detach().mul_(rate).add_(src, alpha=1 - rate)
-
 @torch.no_grad()
 def update_ema(ema_model, model, decay=0.9999):
     """
@@ -101,46 +118,53 @@ def update_ema(ema_model, model, decay=0.9999):
     for name, param in model_params.items():
         # TODO: Consider applying only to params that require_grad to avoid small numerical changes of pos_embed
         ema_params[name].mul_(decay).add_(param.data, alpha=1 - decay)
-def box_intersection(boxes1, boxes2):
+
+def get_parameter_number(model):
+    total_num = sum(p.numel() for p in model.parameters())
+    trainable_num = sum(p.numel() for p in model.parameters() if p.requires_grad)
+    return total_num, trainable_num
+
+def finalize(layout, num_class):
+    bbox = layout[:, :, num_class:]
+    bbox = torch.clamp(bbox, min=-1, max=1) / 2 + 0.5
+    label = torch.argmax(layout[:, :, :num_class], dim=2)
+    mask = (label != 0).clone().detach()
+    label = label.unsqueeze(-1)
+    return bbox, label, mask
+
+def clamp_w_tol(
+    value: float, tolerance: float = 5e-3, vmin: float = 0.0, vmax: float = 1.0
+) -> float:
     """
-    计算两组边界框之间的交集区域。
-    参数:
-        boxes1 (Tensor): 形状为(N, 4)的边界框坐标张量。
-        boxes2 (Tensor): 形状为(M, 4)的边界框坐标张量。
-    返回:
-        intersections (Tensor): 形状为(N, M)的交集面积张量。
+    Clamp the value to [vmin, vmax] range with tolerance.
     """
-    x1_max = torch.max(boxes1[:, :, 0][:, :, None], boxes2[:, :, 0][:, None])
-    y1_max = torch.max(boxes1[:, :, 1][:, :, None], boxes2[:, :, 1][:, None])
-    x2_min = torch.min(boxes1[:, :, 2][:, :, None], boxes2[:, :, 2][:, None])
-    y2_min = torch.min(boxes1[:, :, 3][:, :, None], boxes2[:, :, 3][:, None])
+    assert vmin - tolerance <= value <= vmax + tolerance, value
+    return max(vmin, min(vmax, value))
 
-    w = torch.clamp(x2_min - x1_max, min=0)
-    h = torch.clamp(y2_min - y1_max, min=0)
+def _compare(low: float, high: float) -> tuple[float, float]:
+    if low > high:
+        return high, low
+    else:
+        return low, high
 
-    intersections = w * h
-    return intersections
-
-def non_overlap_loss(boxes):
+def has_valid_area(width, height, thresh: float = 1e-3) -> bool:
     """
-    计算边界框之间的非重叠损失。
-    参数:
-        boxes (Tensor): 形状为(batch_size, num_boxes, 4)的边界框张量。
-    返回:
-        loss (Tensor): 标量损失值。
+    Check whether the area is smaller than the threshold.
     """
-    batch_size, num_boxes, _ = boxes.size()
-    # boxes = boxes.view(-1, 4)  # 展平为(batch_size * num_boxes, 4)
+    area = width * height
+    valid = area > thresh
+    return valid
 
-    intersections = box_intersection(boxes, boxes)
-
-    # 计算每个边界框与其他边界框的交集面积之和
-    intersection_sums = torch.sum(intersections, dim=2)
-
-    # 计算边界框自身的面积
-    # boxes_areas = (boxes[:, :, 2] - boxes[:, :, 0]) * (boxes[:, :, 3] - boxes[:, :, 1])
-
-    # 计算损失
-    loss = intersection_sums .mean()
-    return loss
-
+def natural_sort_cmp(a, b):
+    a_match = re.match(r'(\d+)\.(png|jpg)$', a, re.IGNORECASE)
+    b_match = re.match(r'(\d+)\.(png|jpg)$', b, re.IGNORECASE)
+    if a_match and b_match:
+        a_num = int(a_match.group(1))
+        b_num = int(b_match.group(1))
+        return a_num - b_num
+    elif a_match:
+        return -1
+    elif b_match:
+        return 1
+    else:
+        return 0

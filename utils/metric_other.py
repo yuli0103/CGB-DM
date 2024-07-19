@@ -1,54 +1,14 @@
 import numpy as np
-from torchvision.models import vgg16
 import torch
 import torch.nn as nn
-import torch.nn.functional as F
 from torch.autograd import Variable
 from PIL import Image
-# from saliency_det import get_mask_np
-from torchvision import transforms
-import json
-from PIL import ImageDraw
-import cv2
-from tqdm import tqdm
-import time
-import glob
 import os
-import matplotlib.pyplot as plt
-from utils.util import box_cxcywh_to_xyxy
 from einops import rearrange, reduce, repeat
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
 
-color = ['blue', 'green', 'red', 'yellow', 'black']
-
-# 一样
-def cal_R_und(test_annotation):
-    underlay_over = []
-    for layout in test_annotation:
-        for lay in layout:
-            if lay['category_id'] == 3:  # For underlay
-                max_over = 0
-                for l in layout:
-                    if l['category_id'] != 3:  # For all elements in other categories
-                        x1 = l['bbox'][0]
-                        x2 = l['bbox'][0] + l['bbox'][2]
-                        y1 = l['bbox'][1]
-                        y2 = l['bbox'][1] + l['bbox'][3]
-                        x3 = lay['bbox'][0]
-                        x4 = lay['bbox'][0] + lay['bbox'][2]
-                        y3 = lay['bbox'][1]
-                        y4 = lay['bbox'][1] + lay['bbox'][3]
-                        x_over = max(min(x2, x4) - max(x1, x3), 0)
-                        y_over = max(min(y2, y4) - max(y1, y3), 0)
-                        over = x_over * y_over / (l['bbox'][2] * l['bbox'][3])
-                        max_over = max(max_over, over)
-
-                underlay_over.append(max_over)
-    return sum(underlay_over) / len(underlay_over) if len(underlay_over) != 0 else 0
-
-
-def Rcom_rdam(img_names, clses, boxes):
+def Rcom_radm(img_names, clses, boxes):
     def nn_conv2d(im, sobel_kernel):
         conv_op = nn.Conv2d(1, 1, 3, bias=False)
         sobel_kernel = sobel_kernel.reshape((1, 1, 3, 3))
@@ -86,7 +46,7 @@ def Rcom_rdam(img_names, clses, boxes):
     return sum(R_coms) / len(R_coms) if len(R_coms) != 0 else 0
 
 
-def compute_alignment_ralf(img_size, clses, boxes):
+def Alignment_ralf(img_size, clses, boxes):
     """
     Computes some alignment metrics that are different to each other in previous works.
     Lower values are generally better.
@@ -130,9 +90,6 @@ def compute_alignment_ralf(img_size, clses, boxes):
     batch_mask = repeat(batch_mask, "b s1 s2 -> b x s1 s2", x=3)
     Y[batch_mask] = 1.0
 
-    # Y = rearrange(Y.abs(), "b x s1 s2 -> b s1 x s2")
-    # Y = reduce(Y, "b x s1 s2 -> b x", "min")
-    # Y = rearrange(Y.abs(), " -> b s1 x s2")
     Y = reduce(Y.abs(), "b x s1 s2 -> b s1", "min")
     Y[Y == 1.0] = 0.0
     score_Y = reduce(Y, "b s -> b", "sum")

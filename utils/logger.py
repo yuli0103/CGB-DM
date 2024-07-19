@@ -14,6 +14,7 @@ import tempfile
 import warnings
 from collections import defaultdict
 from contextlib import contextmanager
+import pytz
 
 DEBUG = 10
 INFO = 20
@@ -402,9 +403,10 @@ def configure(dir=None, format_strs=None, comm=None, log_suffix=""):
     """
 
     if dir is None:
+        china_tz = pytz.timezone('Asia/Shanghai')
         dir = osp.join(
-            './tmp',
-            datetime.datetime.now().strftime("openai-%Y-%m-%d-%H-%M-%S-%f"),
+            './output/tmp',
+            datetime.datetime.now(china_tz).strftime("%Y-%m-%d-%H-%M-%S-%f"),
         )
     assert isinstance(dir, str)
     dir = os.path.expanduser(dir)
