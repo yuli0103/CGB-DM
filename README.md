@@ -1,4 +1,4 @@
-# CGB-DM: Content and Graphic Balance Layout Generation with Transformer-based Diffusion Model
+# <center>CGB-DM: Content and Graphic Balance Layout Generation with Transformer-based Diffusion Model</center>
 
 <div align="center">
 
