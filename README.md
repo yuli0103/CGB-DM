@@ -27,11 +27,19 @@ conda activate desigen
 pip install -r requirements.txt
 ```
 
-2. Download [Bastnet](https://github.com/xuebinqin/BASNet) checkpoint into `saliency` folder.
-
+2. Download checkpoints
+   (1) cgb-dm checkpoint
+   (2) is-net checkpoint
+   (3) basnet checkpoint
 
 ## Dataset & Pre-process
-
+1. Download data
+   url
+   dataset structure
+2. how to preprocess with your data
+   (1) inpaint
+   (2) saliency detection
+   (3) get saliency detection box
 
 ## Usage
 
@@ -45,8 +53,7 @@ accelerate config
 sh train.sh
 ```
 
-
-### Testing and Evaluating
+### Inference 
 
 Generate background images with the prompts on validation set and evaluate them by the proposed metrics: FID, Salient Ratio and CLIP Score.
 
@@ -55,7 +62,7 @@ The pretrained saliency dectection mode can be download on [Basnet](https://gith
 ```bash
 sh test.sh
 ```
-### Testing with a single image
+### Inference with a single image
 
 
 
