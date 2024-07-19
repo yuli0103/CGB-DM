@@ -11,7 +11,7 @@ import argparse
 from utils.visualize import draw_image
 from cgbdm.diffusion import Diffusion
 from utils.util import box_xyxy_to_cxcywh, finalize, load_config
-from data_process.generate_salbox_csv import find_bounding_box
+from data_process.generate_sal_box import find_bounding_box
 from data_process.saliency_detection import get_saliency_map
 
 

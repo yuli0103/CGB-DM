@@ -20,7 +20,7 @@ from tqdm import tqdm
 logger = logging.getLogger(__name__)
 
 
-WEIGHT_ROOT = Path("/mnt/data/ly24/model_weight/saliency_detection")
+WEIGHT_ROOT = Path("")
 assert WEIGHT_ROOT.exists(), f"{str(WEIGHT_ROOT.resolve())} does not exist."
 
 
@@ -125,7 +125,7 @@ class ISNetSaliencyTester(_SaliencyTester):  # type: ignore
 
         self._transform = ToTensor()
         self._input_size = (1024, 1024)
-        self._ckpt_path = str(WEIGHT_ROOT / "isnet-general-use.pth")
+        self._ckpt_path = str(WEIGHT_ROOT / "isnet.pth")
         self.setup_model(ISNetDIS())  # type: ignore
 
     @torch.no_grad()
@@ -151,7 +151,7 @@ class BASNetSaliencyTester(_SaliencyTester):  # type: ignore
         super().__init__(**kwargs)
         # note: this transforms takes and returns numpy in np.uint8 with size (H, W, C)
         self._transform = transforms.Compose([RescaleT(256), ToTensorLab(flag=0)])  # type: ignore
-        self._ckpt_path = str(WEIGHT_ROOT / "gdi-basnet.pth")
+        self._ckpt_path = str(WEIGHT_ROOT / "basnet.pth")
         self.setup_model(BASNet(3, 1))  # type: ignore
 
     @torch.no_grad()

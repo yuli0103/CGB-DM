@@ -20,7 +20,7 @@ def find_bounding_box(image_path, ifpath=True):
 
 
 # Function to process all images in a dataset
-def process_dataset(dataset_path, output_csv_dir):
+def process_dataset(dataset_path, output_dir):
     # List to store the results
     results = []
 
@@ -36,7 +36,7 @@ def process_dataset(dataset_path, output_csv_dir):
     # Create a DataFrame and save to csv
     df = pd.DataFrame(results)
     # Output CSV file path
-    df.to_csv(output_csv_dir, index=False)
+    df.to_csv(output_dir, index=False)
 
 def draw_bounding_boxes(image_rgb, bounding_boxes, color=(0, 0, 255), thickness=2):
     height, width = image_rgb.shape[:2]
@@ -51,8 +51,8 @@ def main():
     '''generate saliency bounding box csv file'''
     # Replace with your saliency image dataset directory path
     input_dir = ''
-    output_csv_dir = ''
-    process_dataset(input_dir, output_csv_dir)
+    output_dir = ''
+    process_dataset(input_dir, output_dir)
 
     '''visualize saliency bounding box'''
     # image = cv2.imread("", cv2.IMREAD_GRAYSCALE)

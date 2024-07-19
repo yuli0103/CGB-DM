@@ -146,7 +146,7 @@ if __name__ == "__main__":
     parser.add_argument(
         '--anno',
         type=str,
-        default='anno',
+        default='unanno',
         help='choose dataset to test (anno, unanno)')
     parser.add_argument(
         '--task',
