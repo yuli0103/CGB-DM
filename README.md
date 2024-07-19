@@ -54,9 +54,9 @@ pip install -r requirements.txt
    ```
 2. Download pre-trained weights from <>, which include the weights for CGB-DM (Ours), as well as the weights for the saliency detection algorithms ISNet and BASNet.
 3. how to preprocess with your data
-   (1) inpaint
-   (2) saliency detection
-   (3) get saliency detection box
+   - inpaint: run `generate_inpaint_img.py` and specify the `input_dir`, `mask_dir`, and `output_dir`.
+   - saliency detection: run `saliency_detection.py` and specify the `WEIGHT_ROOT`.
+   - get saliency detection box: run `generate_sal_box.py` and specify the `input_dir`,  and `output_dir`.
 
 ## Usage
 ### Modify the configuration file
