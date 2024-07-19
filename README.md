@@ -1,6 +1,10 @@
-# Desigen: A Pipeline for Controllable Design Template Generation [CVPR'24]
+# CGB-DM: Content and Graphic Balance Layout Generation with Transformer-based Diffusion Model
 
-### [Project Page](https://whaohan.github.io/desigen)  | [Paper](https://arxiv.org/abs/2403.09093) | [Data](https://drive.google.com/file/d/1M6om4DSk9wNgzjGLY5BtPNUL83KB8JVB/view?usp=sharing)
+<div align="center">
+
+ <a href=''><img src='https://img.shields.io/badge/arxiv-paper-red'></a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ <a href='https://yuli0103.github.io/CGB-DM.github.io/'><img src='https://img.shields.io/badge/Project-Page-Green'></a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
 
 <p align="center">
   <img width="100%" src="teaser.png">
