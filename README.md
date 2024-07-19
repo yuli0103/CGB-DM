@@ -43,6 +43,12 @@ pip install -r requirements.txt
 
 ## Usage
 ### Modify the configuration file
+In the `configs/*.yaml` files, you need to replace some paths with your own. This includes:
+
+- `paths.base` (dataset path)
+- `base_check_dir` (directory to save checkpoints)
+- `imgname_order_dir` (directory to load image names for metric calculation)
+- `save_imgs_dir` (directory to save rendered images)
 
 ### Training
 Run the commands in terminal
@@ -64,6 +70,7 @@ Run the commands in terminal
 python scripts/run_single_image.py --gpuid 0 --render_style pku --image_path ''  --check_path ''
 ```
 <render_style> includes pku and cgl. 
+
 In <image_path>, select the test image, and in <check_path>, select the model weights.
 
 ## Citation
