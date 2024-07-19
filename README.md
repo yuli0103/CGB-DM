@@ -42,15 +42,13 @@ pip install -r requirements.txt
    (3) get saliency detection box
 
 ## Usage
+### Modify the configuration file
 
 ### Training
-
+Run the commands in terminal
 ```bash
-cd background/
-# config accelerate first
-accelerate config
-# train the background generator
-sh train.sh
+# You can choose the training dataset and task (unconstrained and constrained generation)
+python scripts/train.py --gpuid 0 --dataset pku --task uncond
 ```
 
 ### Inference 
