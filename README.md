@@ -47,23 +47,24 @@ pip install -r requirements.txt
 ### Training
 Run the commands in terminal
 ```bash
-# You can choose the training dataset and task (unconstrained and constrained generation)
+# You can choose the training dataset and task
 python scripts/train.py --gpuid 0 --dataset pku --task uncond
 ```
 
 ### Inference 
-
-Generate background images with the prompts on validation set and evaluate them by the proposed metrics: FID, Salient Ratio and CLIP Score.
-
-The pretrained saliency dectection mode can be download on [Basnet](https://github.com/xuebinqin/BASNet) and placed on `salliency` directory.
-
+Run the commands in terminal
 ```bash
-sh test.sh
+# You can choose the test dataset, type and corresponding task
+python scripts/test.py --gpuid 0 --dataset pku --anno unanno --task uncond --check_path ''
 ```
+The meaning of <anno> is to select either annotated or unannotated test sets. It is important to note that unannotated test sets can only be used for 'uncond' tasks, as they lack ground truth labels.
 ### Inference with a single image
-
-
-
+Run the commands in terminal
+```bash
+python scripts/run_single_image.py --gpuid 0 --render_style pku --image_path ''  --check_path ''
+```
+<render_style> includes pku and cgl. 
+In <image_path>, select the test image, and in <check_path>, select the model weights.
 
 ## Citation
 
