@@ -28,7 +28,7 @@ pip install -r requirements.txt
 
 
 ## Dataset & Checkpoint
-1. Download data:
+### Download data
    
    Here we provide links to our organized `pku` and `cgl` datasets <url>, which include inpainted images, saliency maps, ground truth labels, and detected saliency bounding box data.
    ```
@@ -53,11 +53,11 @@ pip install -r requirements.txt
    ├─ cgl/
    ├─ ...
    ```
-2. Download pre-trained weights:
+### Download pre-trained weights
    
    Links from <>, which include the weights for CGB-DM (Ours), as well as the weights for the saliency detection algorithms ISNet and BASNet.
    
-4. Preprocess with your data
+### Preprocess with your data
    
 - Image inpainting: run `generate_inpaint_img.py` and specify the `input_dir`, `mask_dir`, and `output_dir`.
 - Saliency detection: run `saliency_detection.py` and specify the `WEIGHT_ROOT`.
