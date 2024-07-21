@@ -21,9 +21,7 @@ Tsinghua University
  Create a conda enviroment:
 
 ```bash
-conda env create -n desigen python=3.8
-conda activate desigen
-pip install -r requirements.txt
+
 ```
 
 
