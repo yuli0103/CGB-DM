@@ -88,15 +88,15 @@ python scripts/train.py --gpuid 0 --dataset pku --task uncond
 Run the commands in terminal
 ```bash
 # You can choose the test dataset, type and corresponding task
-python scripts/test.py --gpuid 0 --dataset pku --anno unanno --task uncond --check_path ''
+python scripts/test.py --gpuid 0 --dataset pku --anno unanno --task uncond --check_path '/path/to/your/ckpt'
 ```
 The meaning of `anno` is to select either annotated or unannotated test sets. It is important to note that unannotated test sets can only be used for `uncond` tasks, as they lack ground truth labels.
 ### Inference with a single image
 Run the commands in terminal
 ```bash
-python scripts/run_single_image.py --gpuid 0 --render_style pku --image_path ''  --check_path ''
+python scripts/run_single_image.py --gpuid 0 --render_style pku --image_path '/path/to/your/image'  --check_path '/path/to/your/ckpt'
 ```
-`render_style` includes pku and cgl. 
+`render_style` includes `pku` and `cgl`. 
 
 In `image_path`, select the test image, and in `check_path`, select the model weights.
 
