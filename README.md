@@ -2,7 +2,7 @@
 
 <div align="center">
 
- <a href=''><img src='https://img.shields.io/badge/arxiv-paper-red'></a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ <a href=''><img src='https://arxiv.org/abs/2407.15233'></a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
  <a href='https://yuli0103.github.io/CGB-DM.github.io/'><img src='https://img.shields.io/badge/Project-Page-Green'></a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
  
 _**[Yu Li](https://github.com/yuli0103/), [Yifan Chen](https://github.com/YifanChen-thu), [Gongye Liu](https://github.com/GongyeLiu), [Jie Wu](https://openreview.net/profile?id=~Jie_Wu23), [Yujiu Yang*](https://scholar.google.com/citations?user=4gH3sxsAAAAJ&hl=zh-CN&oi=ao)**_
