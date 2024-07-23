@@ -17,6 +17,11 @@ Tsinghua University
   <img width="100%" src="docs/teaser.jpg">
 </p>
 
+## Todo List
+
+- [ ] dataset link
+- [ ] model weights
+
 ## Setup
  Create a conda enviroment:
 
