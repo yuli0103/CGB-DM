@@ -5,7 +5,7 @@
  <a href=''><img src='https://img.shields.io/badge/arxiv-paper-red'></a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
  <a href='https://yuli0103.github.io/CGB-DM.github.io/'><img src='https://img.shields.io/badge/Project-Page-Green'></a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
  
-_**[Yu Li](https://github.com/yuli0103/), [Yifan Chen](), [Gongye Liu](https://github.com/GongyeLiu), [Jie Wu](), [Yujiu Yang*](https://scholar.google.com/citations?user=4gH3sxsAAAAJ&hl=zh-CN&oi=ao)**_
+_**[Yu Li](https://github.com/yuli0103/), [Yifan Chen](https://github.com/YifanChen-thu), [Gongye Liu](https://github.com/GongyeLiu), [Jie Wu](https://openreview.net/profile?id=~Jie_Wu23), [Yujiu Yang*](https://scholar.google.com/citations?user=4gH3sxsAAAAJ&hl=zh-CN&oi=ao)**_
 
 Tsinghua University
 <br>
@@ -21,8 +21,8 @@ Tsinghua University
  Create a conda enviroment:
 
 ```bash
-conda env create -n desigen python=3.8
-conda activate desigen
+conda create -n cgbdm python=3.9
+conda activate cgbdm
 pip install -r requirements.txt
 ```
 
@@ -98,5 +98,13 @@ In `image_path`, select the test image, and in `check_path`, select the model we
 ## Citation
 
 ```tex
-
+@misc{li2024cgbdmcontentgraphicbalance,
+      title={CGB-DM: Content and Graphic Balance Layout Generation with Transformer-based Diffusion Model}, 
+      author={Yu Li and Yifan Chen and Gongye Liu and Jie Wu and Yujiu Yang},
+      year={2024},
+      eprint={2407.15233},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV},
+      url={https://arxiv.org/abs/2407.15233}, 
+     }
 ```
