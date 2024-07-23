@@ -354,6 +354,7 @@ def unreadability_cal(img_names, clses, boxes, cfg):
     return np.mean(np.array(metrics))
 
 def metric(img_names, test_output, cfg):
+    logger.log("Calculating metrics...")
     clses, boxes = test_output[:, :, :1], test_output[:, :, 1:]
     boxes = torch.clamp(box_cxcywh_to_xyxy(boxes), 0, 1)
 
