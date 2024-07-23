@@ -96,5 +96,13 @@ In `image_path`, select the test image, and in `check_path`, select the model we
 ## Citation
 
 ```tex
-
+@misc{li2024cgbdmcontentgraphicbalance,
+      title={CGB-DM: Content and Graphic Balance Layout Generation with Transformer-based Diffusion Model}, 
+      author={Yu Li and Yifan Chen and Gongye Liu and Jie Wu and Yujiu Yang},
+      year={2024},
+      eprint={2407.15233},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV},
+      url={https://arxiv.org/abs/2407.15233}, 
+     }
 ```
