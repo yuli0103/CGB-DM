@@ -23,7 +23,6 @@ Tsinghua University
 - [ ] model weights
 
 ## Setup
- Create a conda enviroment:
 
 ```bash
 conda create -n cgbdm python=3.9
