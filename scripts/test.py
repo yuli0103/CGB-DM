@@ -92,7 +92,7 @@ def main(opt):
         testing_set = test_uncond_dataset(cfg)
     else:
         testing_set = test_cond_dataset(cfg)
-    testing_dl = DataLoader(testing_set, num_workers=cfg.num_workers, batch_size=cfg.batch_size, shuffle=True)
+    testing_dl = DataLoader(testing_set, num_workers=cfg.num_workers, batch_size=cfg.batch_size, shuffle=False)
     logger.log(f"Testing set size: {len(testing_set)}")
 
     # test_output_pt_dir = ""
@@ -107,8 +107,8 @@ def main(opt):
                                 num_layers=cfg.n_layers,
                                 device=device,
                                 max_elem=cfg.max_elem,)
-    # model_weights = torch.load(opt.check_path ,map_location=device)
-    # diffusion_model.model.load_state_dict(model_weights)
+    model_weights = torch.load(opt.check_path ,map_location=device)
+    diffusion_model.model.load_state_dict(model_weights)
     diffusion_model.model.eval()
 
     if cfg.task == 'uncond':
@@ -126,7 +126,7 @@ def main(opt):
     metrics = metric(img_names, test_output, cfg)
 
     # visualize
-    cfg.save_imgs_dir = os.path.join(cfg.save_imgs_dir, f'/{opt.dataset}_{opt.anno}_test')
+    cfg.save_imgs_dir = os.path.join(cfg.save_imgs_dir, f'{opt.dataset}_{opt.anno}_test')
     visualize_images(img_names, test_output, cfg)
 
 # Start with main code

@@ -13,7 +13,7 @@
       <paths name="kl23@10.103.16.90:22 password">
         <serverdata>
           <mappings>
-            <mapping deploy="/home/kl23/code/ditl" local="$PROJECT_DIR$" />
+            <mapping deploy="/home/ly24/code/CGBDM" local="$PROJECT_DIR$" />
           </mappings>
         </serverdata>
       </paths>
@@ -81,6 +81,13 @@
         </serverdata>
       </paths>
       <paths name="ly24@10.103.16.91:22 password">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="ly24@10.103.16.91:22 password (2)">
         <serverdata>
           <mappings>
             <mapping local="$PROJECT_DIR$" web="/" />

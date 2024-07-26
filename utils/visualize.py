@@ -9,6 +9,7 @@ import seaborn as sns
 import csv
 from pathlib import Path
 import pickle
+from utils import logger
 
 def get_colors(n_colors: int) -> list[tuple[int, int, int]]:
     colors = sns.color_palette("husl", n_colors=n_colors)
@@ -49,7 +50,7 @@ def draw_image(box, cls, img, img_name, width, height, numclass, save_dir):
     box = box.round().int().numpy()
 
     drawn = draw_box(img, zip(cls, box), numclass)
-    save_dir_path = os.path.join(save_dir, '{}.png'.format(img_name))
+    save_dir_path = os.path.join(save_dir, img_name)
     drawn.save(save_dir_path)
 
 def visualize_images(img_names, test_output, cfg):
@@ -57,12 +58,13 @@ def visualize_images(img_names, test_output, cfg):
     save_dir = cfg.save_imgs_dir
     os.makedirs(save_dir, exist_ok=True)
 
+    logger.log("Visualizing image...")
     for idx in range(test_output.shape[0]):
         image_path = os.path.join(cfg.paths.test.inp_dir, img_names[idx])
         img = Image.open(image_path).convert("RGB")
         box, cls = boxes[idx], clses[idx]
         draw_image(box, cls, img, img_names[idx], cfg.width, cfg.height, cfg.num_class, save_dir)
-        print(idx)
+        # print(idx)
 
 def draw_bgwhite_image(img_names, test_output, cfg):
     clses, boxes = test_output[:, :, :1], test_output[:, :, 1:]

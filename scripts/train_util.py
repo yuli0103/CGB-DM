@@ -115,16 +115,22 @@ class TrainLoop:
             epoch += 1
             self.run_train_step(self.train_data, epoch)
             logger.info("train finish!")
-            if epoch % self.cfg.log_test_epochs == 0:
+
+            if epoch>=400 and epoch % self.cfg.log_test_epochs == 0:
                 if self.cfg.task == 'uncond':
                     metrics = self.test_uncond()
                 else:
                     metrics = self.test_constraint()
                 self.log_metrics(metrics, epoch)
                 logger.log(f"Sample {self.cfg.task} {epoch} epoch done!")
+
+                file_name = f'Epoch{epoch}_cgbdm_weights.pth'
+                check_epoch_dir = os.path.join(check_dir, file_name)
+                torch.save(self.diffusion_model.model.state_dict(), check_epoch_dir)
+
             self.scheduler.step()
         logger.info("Done!")
-        torch.save(self.diffusion_model.model.state_dict(), check_dir)
+        # torch.save(self.diffusion_model.model.state_dict(), check_dir)
         self.writer.close()
 
     def run_train_step(self, data, epoch):

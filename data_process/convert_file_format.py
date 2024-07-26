@@ -11,10 +11,11 @@ def json_to_csv():
     '''
     json to csv(cgl)
     '''
-    with open('Dataset/cgl/json/layout_train_6w_fixed_v2.json', 'r') as f:
+    with open('/mnt/data/ly24/layout_train_6w_fixed_v2.json', 'r') as f:
         data = json.load(f)
     image_id_to_filename = {image['id']: image['file_name'] for image in data['images']}
-    with open('Dataset/cgl/csv/train.csv', 'w', newline='') as f:
+
+    with open('/mnt/data/ly24/cgl_train.csv', 'w', newline='') as f:
         writer = csv.writer(f)
         writer.writerow(['poster_path', 'total_elem', 'cls_elem', 'box_elem', 'file_name'])
 
@@ -25,7 +26,7 @@ def json_to_csv():
                 xmin, ymin, width, height = bbox['bbox']
                 box_elem = [xmin, ymin, xmin+width, ymin+height]
                 file_name = image_id_to_filename[image_id]
-                writer.writerow(["train/" + str(image_id) + ".jpg", len(annotation), category_id, box_elem, file_name])
+                writer.writerow([str(image_id) + ".png", len(annotation), category_id, box_elem, file_name])
 
 def read_parquet():
     # Reading Parquet Files
@@ -124,3 +125,6 @@ def file_process():
             processed_files.add(old_filename)
         else:
             print(f"File {old_filename} not found, skipping.")
+
+if __name__ == "__main__":
+    json_to_csv()

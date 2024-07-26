@@ -39,7 +39,7 @@ def main(opt):
     else:
         cfg.imgname_order_dir = os.path.join(cfg.imgname_order_dir, f'seed_{seed}_{opt.dataset}_anno_test.pt')
         evaling_set = test_cond_dataset(cfg)
-    evaling_dl = DataLoader(evaling_set, num_workers=cfg.num_workers, batch_size=cfg.test_batch_size, shuffle=True)
+    evaling_dl = DataLoader(evaling_set, num_workers=cfg.num_workers, batch_size=cfg.test_batch_size, shuffle=False)
 
     logger.info(f"Training set size: {len(training_set)}, Evaling set size:{len(evaling_set)}")
 
