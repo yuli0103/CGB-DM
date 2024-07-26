@@ -32,8 +32,8 @@ feature_dim: 1024
 num_workers: 16
 log_test_epochs: 5
 base_check_dir: '/mnt/data/ly24/checkpoint/pku'
-imgname_order_dir: '/home/ly24/code/ditl/output/ptfile/image_name_order'
-save_imgs_dir: '/home/ly24/code/ditl/output/image'
+imgname_order_dir: '/home/ly24/code/CGBDM/output/ptfile/image_name_order'
+save_imgs_dir: '/home/ly24/code/CGBDM/output/image'
 
 # Dynamic configuration
 datetime: null

@@ -38,7 +38,7 @@ feature_dim: 1024
 num_workers: 16
 log_test_epochs: 5
 base_check_dir: '/mnt/data/ly24/checkpoint/cgl'
-imgname_order_dir: '/home/ly24/code/ditl/output/ptfile/image_name_order'
+imgname_order_dir: '/home/ly24/code/CGBDM/output/ptfile/image_name_order'
 
 # Dynamic configuration
 datetime: null
