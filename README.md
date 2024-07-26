@@ -2,8 +2,8 @@
 
 <div align="center">
 
- <a href=''><img src='https://img.shields.io/badge/arxiv-paper-red'></a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
- <a href='https://yuli0103.github.io/CGB-DM.github.io/'><img src='https://img.shields.io/badge/Project-Page-Green'></a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ <a href='https://arxiv.org/abs/2407.15233'><img src='https://img.shields.io/badge/arxive-paper-red'></a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ <a href='https://yuli0103.github.io/CGB-DM.github.io/'><img src='https://img.shields.io/badge/project-page-Green'></a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
  
 _**[Yu Li](https://github.com/yuli0103/), [Yifan Chen](https://github.com/YifanChen-thu), [Gongye Liu](https://github.com/GongyeLiu), [Jie Wu](https://openreview.net/profile?id=~Jie_Wu23), [Yujiu Yang*](https://scholar.google.com/citations?user=4gH3sxsAAAAJ&hl=zh-CN&oi=ao)**_
 
@@ -17,8 +17,12 @@ Tsinghua University
   <img width="100%" src="docs/teaser.jpg">
 </p>
 
+## Todo List
+
+- [ ] dataset link
+- [ ] model weights
+
 ## Setup
- Create a conda enviroment:
 
 ```bash
 conda create -n cgbdm python=3.9
@@ -30,7 +34,7 @@ pip install -r requirements.txt
 ## Dataset & Checkpoint
 ### Download data
    
-   Here we provide links to our organized `pku` and `cgl` datasets <url>, which include inpainted images, saliency maps, ground truth labels, and detected saliency bounding box data.
+   Here we provide [download links](https://github.com/yuli0103/CGB-DM) to our organized `pku` and `cgl` datasets, which include inpainted images, saliency maps, ground truth labels, and detected saliency bounding box data.
    ```
    dataset/
    ├─ pku/
@@ -55,7 +59,7 @@ pip install -r requirements.txt
    ```
 ### Download pre-trained weights
    
-   Links from <>, which include the weights for CGB-DM (Ours), as well as the weights for the saliency detection algorithms ISNet and BASNet.
+   [Download links](https://github.com/yuli0103/CGB-DM), which include the weights for CGB-DM (Ours), as well as the weights for the saliency detection algorithms ISNet and BASNet.
    
 ### Preprocess with your data
    
@@ -83,15 +87,15 @@ python scripts/train.py --gpuid 0 --dataset pku --task uncond
 Run the commands in terminal
 ```bash
 # You can choose the test dataset, type and corresponding task
-python scripts/test.py --gpuid 0 --dataset pku --anno unanno --task uncond --check_path ''
+python scripts/test.py --gpuid 0 --dataset pku --anno unanno --task uncond --check_path '/path/to/your/ckpt'
 ```
 The meaning of `anno` is to select either annotated or unannotated test sets. It is important to note that unannotated test sets can only be used for `uncond` tasks, as they lack ground truth labels.
 ### Inference with a single image
 Run the commands in terminal
 ```bash
-python scripts/run_single_image.py --gpuid 0 --render_style pku --image_path ''  --check_path ''
+python scripts/run_single_image.py --gpuid 0 --render_style pku --image_path '/path/to/your/image'  --check_path '/path/to/your/ckpt'
 ```
-`render_style` includes pku and cgl. 
+`render_style` includes `pku` and `cgl`. 
 
 In `image_path`, select the test image, and in `check_path`, select the model weights.
 
