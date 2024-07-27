@@ -93,7 +93,7 @@ The meaning of `anno` is to select either annotated or unannotated test sets. It
 ### Inference with a single image
 Run the commands in terminal
 ```bash
-python scripts/run_single_image.py --gpuid 0 --render_style pku --image_path '/path/to/your/image'  --check_path '/path/to/your/ckpt'
+python scripts/run_single_image.py --gpuid 0 --seed 1 --render_style pku --image_path '/path/to/your/image'  --check_path '/path/to/your/ckpt'
 ```
 `render_style` includes `pku` and `cgl`. 
 
