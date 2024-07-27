@@ -14,8 +14,8 @@ class train_dataset(Dataset):
         img = os.listdir(cfg.paths.train.inp_dir)
         # torch.save(img, "imgname_train_save.pt")
         self.inp = list(map(lambda x: os.path.join(cfg.paths.train.inp_dir, x), img))
-        self.sal = list(map(lambda x: os.path.join(cfg.paths.train.sal_dir, x), img))
-        self.sal_sub = list(map(lambda x: os.path.join(cfg.paths.train.sal_sub_dir, x), img))
+        self.sal = list(map(lambda x: os.path.join(cfg.paths.train.sal_dir, x), img))         # isnet
+        self.sal_sub = list(map(lambda x: os.path.join(cfg.paths.train.sal_sub_dir, x), img)) # basnet
         self.box_path = cfg.paths.train.salbox_dir
         self.num_class = cfg.num_class
         df_anno = read_csv(cfg.paths.train.annotated_dir)
@@ -97,8 +97,8 @@ class test_uncond_dataset(Dataset):
         torch.save(img, cfg.imgname_order_dir)
 
         self.bg = list(map(lambda x: os.path.join(cfg.paths.test.inp_dir, x), img))
-        self.sal = list(map(lambda x: os.path.join(cfg.paths.test.sal_dir, x), img))
-        self.sal_sub = list(map(lambda x: os.path.join(cfg.paths.test.sal_sub_dir, x), img))
+        self.sal = list(map(lambda x: os.path.join(cfg.paths.test.sal_dir, x), img))         # isnet
+        self.sal_sub = list(map(lambda x: os.path.join(cfg.paths.test.sal_sub_dir, x), img)) # basnet
         self.max_elem = cfg.max_elem
 
         df_salbox = read_csv(cfg.paths.test.salbox_dir)
@@ -145,8 +145,8 @@ class test_cond_dataset(Dataset):
         torch.save(img, cfg.imgname_order_dir)
 
         self.inp = list(map(lambda x: os.path.join(cfg.paths.test.inp_dir, x), img))
-        self.sal = list(map(lambda x: os.path.join(cfg.paths.test.sal_dir, x), img))
-        self.sal_sub = list(map(lambda x: os.path.join(cfg.paths.test.sal_sub_dir, x), img))
+        self.sal = list(map(lambda x: os.path.join(cfg.paths.test.sal_dir, x), img))         # isnet
+        self.sal_sub = list(map(lambda x: os.path.join(cfg.paths.test.sal_sub_dir, x), img)) # basnet
         self.box_path = cfg.paths.test.salbox_dir
         self.num_class = cfg.num_class
         df_anno = read_csv(cfg.paths.test.annotated_dir)
