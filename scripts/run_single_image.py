@@ -1,10 +1,11 @@
 import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from PIL import Image
 import torch
 from transformers import set_seed
 from torchvision import transforms
-import os
 import numpy as np
 import argparse
 
@@ -26,13 +27,13 @@ def get_sal_box(img_sal_map, width, height, device):
     return sal_box
 
 def main(opt):
-    seed = 1
+    seed = opt.seed
     set_seed(seed)
 
     device = torch.device(f"cuda:{opt.gpuid}" if torch.cuda.is_available() else "cpu")
     torch.cuda.set_device(device)
 
-    cfg = load_config(f'configs/{opt.dataset}_anno_test.yaml')
+    cfg = load_config(f'configs/{opt.render_style}_anno_test.yaml')
     
     img_inp = Image.open(opt.image_path).convert("RGB")
     cfg.width, cfg.height = img_inp.size
@@ -72,9 +73,9 @@ def main(opt):
     bbox, cls, _ = diffusion_model.reverse_ddim(img_tensor, sal_box, cfg, save_inter=False)
 
     current_dir = os.getcwd()
-    imgname = os.path.splitext(os.path.split(opt.image_path))
+    imgname = os.path.basename(opt.image_path)
     img_name = 'render_' + imgname
-    draw_image(bbox, cls, img_inp, img_name, cfg.width, cfg.height, cfg.numclass, save_dir=current_dir)
+    draw_image(bbox, cls, img_inp, img_name, cfg.width, cfg.height, cfg.num_class, save_dir=current_dir)
 
 # Start with main code
 if __name__ == "__main__":
@@ -85,6 +86,11 @@ if __name__ == "__main__":
         type=int,
         default=0,
         help='choose gpu')
+    parser.add_argument(
+        '--seed',
+        type=int,
+        default=1,
+        help='choose seed')
     parser.add_argument(
         '--render_style',
         type=str,

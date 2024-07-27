@@ -2,13 +2,21 @@ import os
 import pandas as pd
 import cv2
 from natsort import natsorted
+import numpy as np
+from PIL import Image
 
 # Function to find the bounding box
-def find_bounding_box(image_path, ifpath=True):
+def find_bounding_box(image, ifpath=True):
     if ifpath:
-        image = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
-    else:
-        image = image_path
+        image = cv2.imread(image, cv2.IMREAD_GRAYSCALE)
+    elif isinstance(image, Image.Image):
+        image = np.array(image)
+
+    if image.ndim == 3 and image.shape[2] == 3:
+        image = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)
+
+    if not isinstance(image, np.ndarray):
+        raise TypeError("Input must be a numpy array or a path to an image file")
 
     _, thresh = cv2.threshold(image, 25, 255, cv2.THRESH_BINARY)
     contours, _ = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)

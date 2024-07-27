@@ -12,3 +12,4 @@ opencv-python==4.10.0.84
 einops==0.8.0
 matplotlib==3.9.1
 seaborn==0.13.2
+natsort==8.4.0

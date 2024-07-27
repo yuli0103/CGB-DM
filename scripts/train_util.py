@@ -115,7 +115,7 @@ class TrainLoop:
             epoch += 1
             self.run_train_step(self.train_data, epoch)
             logger.info("train finish!")
-
+            # Modify log_test_epochs, observe the validation set results on tensorboard, and select the optimal weight
             if epoch>=400 and epoch % self.cfg.log_test_epochs == 0:
                 if self.cfg.task == 'uncond':
                     metrics = self.test_uncond()

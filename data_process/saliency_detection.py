@@ -1,5 +1,6 @@
 import argparse
 import logging
+import sys
 from pathlib import Path
 from typing import Any
 
@@ -7,8 +8,8 @@ import numpy as np
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from models.saliency.basnet import BASNet, RescaleT, ToTensorLab
-from models.saliency.isnet import ISNetDIS
+from data_process.models.saliency.basnet import BASNet, RescaleT, ToTensorLab
+from data_process.models.saliency.isnet import ISNetDIS
 from PIL import Image
 from torch import Tensor
 from torchvision import transforms
@@ -20,7 +21,7 @@ from tqdm import tqdm
 logger = logging.getLogger(__name__)
 
 
-WEIGHT_ROOT = Path("")
+WEIGHT_ROOT = Path("/mnt/data/ly24/model_weight/saliency_detection")
 assert WEIGHT_ROOT.exists(), f"{str(WEIGHT_ROOT.resolve())} does not exist."
 
 
@@ -99,6 +100,8 @@ def get_saliency_map(image):
         saliency_maps.append(np.array(saliency_map))
 
     combined_map = np.maximum(*saliency_maps)
+    combined_map = combined_map.squeeze()
+    combined_map = (combined_map * 255).astype(np.uint8)
 
     return Image.fromarray(combined_map)
 
