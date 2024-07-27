@@ -34,7 +34,7 @@ pip install -r requirements.txt
 ## Dataset & Checkpoint
 ### Download data
    
-   Here we provide [download links]() to our organized `pku` and `cgl` datasets, which include inpainted images, saliency maps, ground truth labels, and detected saliency bounding box data.
+   Here we provide [download links](https://drive.google.com/file/d/1aT_QuLhmZdhLKGZbZgtKfrNfqeHKPqIo/view?usp=drive_link) to our organized `pku` and `cgl` datasets, which include inpainted images, saliency maps, ground truth labels, and detected saliency bounding box data.
    ```
    dataset/
    ├─ pku/
